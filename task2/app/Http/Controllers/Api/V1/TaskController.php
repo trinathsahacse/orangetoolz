@@ -24,7 +24,7 @@ class TaskController extends BaseController
             return $this->successResponse($tasks,'Task List', Response::HTTP_OK);
         }
         catch(Exception $e){
-
+            return response()->json(['error'=>1, 'message'=>$e->getMessage()]);
         }
     }
 
