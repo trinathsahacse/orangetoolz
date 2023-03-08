@@ -79,8 +79,16 @@ class TaskController extends BaseController
      */
     public function edit($id)
     {
-        $task = Task::where('id',$id)->with('details')->first();
-        return $this->successResponse($task,'Task view', Response::HTTP_OK);
+        try{
+            $task = Task::where('id',$id)->with('details')->first();
+            if(!$task){
+                return response()->json(['error'=>1, 'message'=>'Task not found']);    
+            }
+            return $this->successResponse($task,'Task view', Response::HTTP_OK);
+        }
+        catch(Exception $e){
+            return response()->json(['error'=>1, 'message'=>$e->getMessage()]);
+        }
     }
 
     /**
@@ -122,7 +130,16 @@ class TaskController extends BaseController
      */
     public function destroy($id)
     {
-        $task = Task::where('id',$id)->delete();
-        return $this->successResponse($task,'Task has been deleted successfully', Response::HTTP_OK);
+        try{
+            $task = Task::where('id',$id)->first();
+            if(!$task){
+                return response()->json(['error'=>1, 'message'=>'Task not found']);    
+            }
+            $task = Task::where('id',$id)->delete();
+            return $this->successResponse($task,'Task has been deleted successfully', Response::HTTP_OK);
+        }
+        catch(Exception $e){
+            return response()->json(['error'=>1, 'message'=>$e->getMessage()]);
+        }
     }
 }

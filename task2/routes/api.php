@@ -22,8 +22,8 @@ Route::namespace('\App\Http\Controllers\Api\V1')->group(function () {
     Route::prefix('v1')->group(function () {
         Route::post('login', 'JwtController@login');
         Route::get('/check-login', 'JwtController@checkLogin');
-        Route::group(['middleware' => 'auth:api'], function () {
+        // Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('task', 'TaskController');
-        });
+        // });
     });
 });
